@@ -1,28 +1,17 @@
-import React, { useEffect, useState } from "react";
+import { ReduxCoreApp } from "./components/ReduxCoreApp";
+import "./App.css";
+import { ReactReduxApp } from "./components/ReactReduxApp";
 import { store } from "./redux/redux";
-import './App.css';
+import { Provider } from "./implementations/ReactRedux";
 
-export const App = () => {
-  const [counter, setCounter] = useState(store.getState().value);
-  useEffect(() => {
-    store.subscribe(() => {
-      const { value } = store.getState();
-      setCounter(value);
-    });
-  }, []);
-  const handleIncrement = () => {
-    store.dispatch({ type: "counter/incremented" });
-  };
-  const handleDecrement = () => {
-    store.dispatch({ type: "counter/decremented" });
-  };
+const App = () => {
   return (
-    <div className="App">
-      <h1>Counter</h1>
-      <div>{counter}</div>
-      <button onClick={handleIncrement}>increment</button>
-      <button onClick={handleDecrement}>decrement</button>
-    </div>
+    <>
+      <ReduxCoreApp />
+      <Provider store={store}>
+        <ReactReduxApp />
+      </Provider>
+    </>
   );
 };
 

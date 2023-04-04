@@ -1,21 +1,20 @@
-
 export const myCreateStore = (reducer, initialState) => {
-  class Store {
-    constructor() {
-      this.reducer = reducer;
-      this.state = initialState || reducer(undefined, {type: ""});
-      this.listeners = [];
-    }
+  let state =
+    initialState === undefined
+      ? reducer(undefined, { type: null })
+      : initialState;
+  let listeners = [];
+
+  return {
     getState() {
-      return this.state || 0;
-    }
+      return state;
+    },
     dispatch(action) {
-      this.state = reducer(this.state, action);
-      this.listeners.forEach(listener => listener())
-    }
+      state = reducer(state, action);
+      listeners.forEach((listener) => listener());
+    },
     subscribe(callback) {
-      this.listeners.push(callback);
-    }
-  }
-  return new Store();
+      listeners.push(callback);
+    },
+  };
 };
